@@ -7,9 +7,9 @@ import Relatedproducts from '../Components/Relatedproducts';
 const Product = () => {
 
   const {productid}=useParams();
-  const {products,currency}=useContext(shopcontext);
+  const {products,currency,addtocart}=useContext(shopcontext);
   const [productdata, setproductdata] = useState(false);
-  const [image, setimage] = useState('')
+  const [image, setimage] = useState('');
   const [size, setsize] = useState('')
 
   const fetchproductdata=async()=>{
@@ -17,7 +17,6 @@ const Product = () => {
       if(item._id===productid){
         setproductdata(item)
         setimage(item.image[0]);
-        console.log(item);
         return null;
       }
     })
@@ -58,7 +57,7 @@ const Product = () => {
             </div>
             <p className='mt-5 text-3xl font-medium'>{currency}{productdata.price}</p>
             <p className='mt-5 text-gray-500 md:w-4/5'>{productdata.description}</p>
-            <div className='flex felx-col gap-4 my-8'>
+            <div className='flex flex-col gap-4 my-8'>
               <p>Select size </p>
               <div className='flex gap-2'>
               {productdata.sizes.map((item,index)=>(
@@ -67,7 +66,7 @@ const Product = () => {
               </div>
             </div>
 
-            <button className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700 '>Add to cart </button>
+            <button onClick={()=>addtocart(productdata._id,size)} className='bg-black text-white px-8 py-3 text-sm active:bg-gray-700 '>Add to cart </button>
             <hr className='mt-8 sm:w-4/5'/>
             <div className='text-sm text-gray-500 mt-5 flex flex-col gap-1'>
               <p>100%  Original product </p>
@@ -89,7 +88,7 @@ const Product = () => {
 </div>
 {/* display related products  */}
 
-<Relatedproducts category={productdata.category} subcategory={productdata.subcategory}/>
+<Relatedproducts category={productdata.category} subCategory={productdata.subCategory}/>
     </div>
   ):<div className='opacity-0'></div>
 
