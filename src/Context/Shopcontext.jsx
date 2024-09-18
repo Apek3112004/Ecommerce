@@ -50,6 +50,33 @@ function Shopcontextprovider(props){
 		return totalcount;
 	}
 
+
+	
+
+	//delete icon functionality :
+	const updatequantity=async(itemid,size,quantity)=>{
+		let cartdata=structuredClone(cartitems);
+		cartdata[itemid][size]=quantity;
+		setcartitems(cartdata);
+	}
+
+	const getcartamount=async()=>{
+		let totalamount=0;
+		for(const items in cartitems){
+			let iteminfo=products.find((product)=>product._id===items);
+			for(const item in cartitems[items]){
+				try{
+					if (cartitems[items][item]>0) {
+						totalamount+=iteminfo.price * cartitems[items][item];
+					}
+				}catch(error){
+
+				}
+			}
+		}
+		return totalamount;
+	}
+
 	const value = {
 		products,
 		delieverycharges,
@@ -61,7 +88,11 @@ function Shopcontextprovider(props){
 		cartitems,
 		addtocart,
 		getcartcount,
+		updatequantity,
+		getcartamount
 	}
+
+
 
 	return (
 		<shopcontext.Provider value={value}>{props.children}</shopcontext.Provider>
